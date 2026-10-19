@@ -4324,31 +4324,24 @@ local Library do
             }):AddToTheme({Color = "Border"})
         end
 
-        -- [FIX #11] Mobile Floating Toggle Button (แสดงเฉพาะมือถือ)
+        -- [FIX #11] Mobile Floating Toggle Button (Watermark style)
         local IsMobile = UserInputService.TouchEnabled and not UserInputService.MouseEnabled
 
         if IsMobile then
             local ToggleButton = Instances:Create("TextButton", {
                 Parent = self.Holder.Instance,
                 Name = "\0",
-                AnchorPoint = Vector2New(0.5, 1),
-                Position = UDim2New(0.5, 0, 1, -20),
-                Size = UDim2New(0, 55, 0, 55),
+                AnchorPoint = Vector2New(0, 0),
+                Position = UDim2New(0, 10, 0, 10),
+                Size = UDim2New(0, 0, 0, 25),
+                AutomaticSize = Enum.AutomaticSize.X,
                 BackgroundColor3 = FromRGB(12, 12, 12),
-                BorderColor3 = FromRGB(68, 68, 68),
+                BorderColor3 = FromRGB(0, 0, 0),
                 BorderSizePixel = 2,
-                Text = "≡",
-                TextColor3 = FromRGB(31, 226, 130),
-                TextSize = 34,
-                Font = Enum.Font.SourceSansBold,
+                Text = "",
                 AutoButtonColor = false,
-                ZIndex = 10,
-            })  ToggleButton:AddToTheme({BackgroundColor3 = "Inline", BorderColor3 = "Outline", TextColor3 = "Accent"})
-
-            Instances:Create("UICorner", {
-                Parent = ToggleButton.Instance,
-                CornerRadius = UDimNew(0, 27),
-            })
+                TextSize = 14,
+            })  ToggleButton:AddToTheme({BackgroundColor3 = "Inline", BorderColor3 = "Outline"})
 
             Instances:Create("UIStroke", {
                 Parent = ToggleButton.Instance,
@@ -4356,6 +4349,43 @@ local Library do
                 ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                 LineJoinMode = Enum.LineJoinMode.Miter,
             }):AddToTheme({Color = "Border"})
+
+            Instances:Create("UIPadding", {
+                Parent = ToggleButton.Instance,
+                PaddingRight = UDimNew(0, 8),
+                PaddingLeft = UDimNew(0, 8)
+            })
+
+            local ToggleText = Instances:Create("TextLabel", {
+                Parent = ToggleButton.Instance,
+                FontFace = Library.Font,
+                TextColor3 = FromRGB(180, 180, 180),
+                BorderColor3 = FromRGB(0, 0, 0),
+                Text = "Toggle ui",
+                Name = "\0",
+                BackgroundTransparency = 1,
+                Size = UDim2New(0, 0, 1, 0),
+                BorderSizePixel = 0,
+                AutomaticSize = Enum.AutomaticSize.X,
+                TextSize = 12,
+                BackgroundColor3 = FromRGB(255, 255, 255)
+            })  ToggleText:AddToTheme({TextColor3 = "Text"})
+
+            local ToggleLiner = Instances:Create("Frame", {
+                Parent = ToggleButton.Instance,
+                Name = "\0",
+                Position = UDim2New(0, -8, 0, 0),
+                BorderColor3 = FromRGB(0, 0, 0),
+                Size = UDim2New(1, 16, 0, 2),
+                BorderSizePixel = 0,
+                BackgroundColor3 = FromRGB(31, 226, 130)
+            })  ToggleLiner:AddToTheme({BackgroundColor3 = "Accent"})
+
+            Instances:Create("UIGradient", {
+                Parent = ToggleLiner.Instance,
+                Rotation = 90,
+                Color = RGBSequence{RGBSequenceKeypoint(0, FromRGB(255, 255, 255)), RGBSequenceKeypoint(1, FromRGB(94, 94, 94))}
+            })
 
             local ToggleDragging = false
             local ToggleDragStart
