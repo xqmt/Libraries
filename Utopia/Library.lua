@@ -593,7 +593,7 @@ local Library do
             end)
 
             Library:Connect(UserInputService.InputChanged, function(Input)
-                if Input.UserInputType == Enum.UserInputType.MouseMovement and Resizing then
+                if (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) and Resizing then
 					ResizeMax = Maximum or Gui.Parent.AbsoluteSize - Gui.AbsoluteSize
 
 					Delta = Start + UDim2New(0, Input.Position.X, 0, Input.Position.Y)
@@ -769,11 +769,22 @@ local Library do
         return MathFloor(Number * Multiplier) / Multiplier
     end
 
+    -- [FIX #1] IsMouseOverFrame รองรับ Touch + เพิ่ม IsPositionOverFrame
     Library.IsMouseOverFrame = function(self, Frame)
         local AbsolutePosition = Frame.AbsolutePosition
         local AbsoluteSize = Frame.AbsoluteSize
+        local MouseLocation = UserInputService:GetMouseLocation()
 
-        if Mouse.X >= AbsolutePosition.X and Mouse.X <= AbsolutePosition.X + AbsoluteSize.X and Mouse.Y >= AbsolutePosition.Y and Mouse.Y <= AbsolutePosition.Y + AbsoluteSize.Y then    
+        if MouseLocation.X >= AbsolutePosition.X and MouseLocation.X <= AbsolutePosition.X + AbsoluteSize.X and MouseLocation.Y >= AbsolutePosition.Y and MouseLocation.Y <= AbsolutePosition.Y + AbsoluteSize.Y then    
+            return true
+        end
+    end
+
+    Library.IsPositionOverFrame = function(self, Frame, Position)
+        local AbsolutePosition = Frame.AbsolutePosition
+        local AbsoluteSize = Frame.AbsoluteSize
+
+        if Position.X >= AbsolutePosition.X and Position.X <= AbsolutePosition.X + AbsoluteSize.X and Position.Y >= AbsolutePosition.Y and Position.Y <= AbsolutePosition.Y + AbsoluteSize.Y then    
             return true
         end
     end
@@ -3338,8 +3349,9 @@ local Library do
             Colorpicker:SetOpen(not Colorpicker.IsOpen)
         end)
 
+        -- [FIX #10] Close Colorpicker รองรับ Touch + ใช้ IsPositionOverFrame
         Library:Connect(UserInputService.InputBegan, function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 if Debounce then 
                     return 
                 end
@@ -3348,7 +3360,7 @@ local Library do
                     return 
                 end
 
-                if Library:IsMouseOverFrame(Items["ColorpickerWindow"]["Outline"].Instance) then 
+                if Library:IsPositionOverFrame(Items["ColorpickerWindow"]["Outline"].Instance, Input.Position) then 
                     return 
                 end
 
@@ -3356,47 +3368,54 @@ local Library do
             end
         end)
 
+        -- [FIX #3] Palette InputBegan รองรับ Touch
         Items["Palette"]:Connect("InputBegan", function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingPalette = true
                 Colorpicker:SlidePalette(Input)
             end
         end)
 
+        -- [FIX #4] Palette InputEnded รองรับ Touch
         Items["Palette"]:Connect("InputEnded", function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingPalette = false
             end
         end)
 
+        -- [FIX #5] Hue InputBegan รองรับ Touch
         Items["Hue"]:Connect("InputBegan", function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingHue = true
                 Colorpicker:SlideHue(Input)
             end
         end)
 
+        -- [FIX #6] Hue InputEnded รองรับ Touch
         Items["Hue"]:Connect("InputEnded", function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingHue = false
             end
         end)
 
+        -- [FIX #7] Alpha InputBegan รองรับ Touch
         Items["Alpha"]:Connect("InputBegan", function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingAlpha = true
                 Colorpicker:SlideAlpha(Input)
             end
         end)
 
+        -- [FIX #8] Alpha InputEnded รองรับ Touch
         Items["Alpha"]:Connect("InputEnded", function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingAlpha = false
             end
         end)
 
+        -- [FIX #9] InputChanged รองรับ Touch
         Library:Connect(UserInputService.InputChanged, function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseMovement then
+            if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
                 if SlidingPalette then
                     Colorpicker:SlidePalette(Input)
                 end
@@ -4303,6 +4322,80 @@ local Library do
                 LineJoinMode = Enum.LineJoinMode.Miter,
                 ApplyStrokeMode = Enum.ApplyStrokeMode.Border
             }):AddToTheme({Color = "Border"})
+        end
+
+        -- [FIX #11] Mobile Floating Toggle Button (แสดงเฉพาะมือถือ)
+        local IsMobile = UserInputService.TouchEnabled and not UserInputService.MouseEnabled
+
+        if IsMobile then
+            local ToggleButton = Instances:Create("TextButton", {
+                Parent = self.Holder.Instance,
+                Name = "\0",
+                AnchorPoint = Vector2New(0.5, 1),
+                Position = UDim2New(0.5, 0, 1, -20),
+                Size = UDim2New(0, 55, 0, 55),
+                BackgroundColor3 = FromRGB(12, 12, 12),
+                BorderColor3 = FromRGB(68, 68, 68),
+                BorderSizePixel = 2,
+                Text = "≡",
+                TextColor3 = FromRGB(31, 226, 130),
+                TextSize = 34,
+                Font = Enum.Font.SourceSansBold,
+                AutoButtonColor = false,
+                ZIndex = 10,
+            })  ToggleButton:AddToTheme({BackgroundColor3 = "Inline", BorderColor3 = "Outline", TextColor3 = "Accent"})
+
+            Instances:Create("UICorner", {
+                Parent = ToggleButton.Instance,
+                CornerRadius = UDimNew(0, 27),
+            })
+
+            Instances:Create("UIStroke", {
+                Parent = ToggleButton.Instance,
+                Color = FromRGB(68, 68, 68),
+                ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                LineJoinMode = Enum.LineJoinMode.Miter,
+            }):AddToTheme({Color = "Border"})
+
+            local ToggleDragging = false
+            local ToggleDragStart
+            local ToggleStartPosition
+            local ToggleTapMoved = false
+
+            ToggleButton:Connect("InputBegan", function(Input)
+                if Input.UserInputType == Enum.UserInputType.Touch or Input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    ToggleDragging = true
+                    ToggleTapMoved = false
+                    ToggleDragStart = Input.Position
+                    ToggleStartPosition = ToggleButton.Instance.Position
+                end
+            end)
+
+            ToggleButton:Connect("InputEnded", function(Input)
+                if Input.UserInputType == Enum.UserInputType.Touch or Input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    ToggleDragging = false
+                    if not ToggleTapMoved then
+                        Window:SetOpen(not Window.IsOpen)
+                    end
+                end
+            end)
+
+            Library:Connect(UserInputService.InputChanged, function(Input)
+                if Input.UserInputType == Enum.UserInputType.Touch or Input.UserInputType == Enum.UserInputType.MouseMovement then
+                    if ToggleDragging then
+                        local DragDelta = Input.Position - ToggleDragStart
+                        if DragDelta.Magnitude > 10 then
+                            ToggleTapMoved = true
+                        end
+                        ToggleButton.Instance.Position = UDim2New(
+                            ToggleStartPosition.X.Scale, ToggleStartPosition.X.Offset + DragDelta.X,
+                            ToggleStartPosition.Y.Scale, ToggleStartPosition.Y.Offset + DragDelta.Y
+                        )
+                    end
+                end
+            end)
+
+            Window.MobileToggleButton = ToggleButton
         end
 
         function Window:SetOpen(Bool)
