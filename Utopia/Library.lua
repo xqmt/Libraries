@@ -377,6 +377,71 @@ local Library do
             ["Dark Liner"] = FromRGB(38, 45, 53),
             ["Risky"] = FromRGB(255, 50, 50),
             ["Accent"] = FromRGB(104, 214, 255)
+        },
+
+        ["Neverlose"] = {
+            ["Window Background"] = FromRGB(10, 16, 26),
+            ["Inline"] = FromRGB(7, 11, 18),
+            ["Text"] = FromRGB(220, 230, 245),
+            ["Section Background"] = FromRGB(13, 20, 32),
+            ["Element"] = FromRGB(18, 28, 44),
+            ["Border"] = FromRGB(16, 36, 58),
+            ["Outline"] = FromRGB(5, 8, 14),
+            ["Dark Liner"] = FromRGB(14, 22, 35),
+            ["Risky"] = FromRGB(255, 60, 60),
+            ["Accent"] = FromRGB(0, 150, 255)
+        },
+
+        ["Gamesense"] = {
+            ["Window Background"] = FromRGB(20, 20, 20),
+            ["Inline"] = FromRGB(12, 12, 12),
+            ["Text"] = FromRGB(220, 220, 220),
+            ["Section Background"] = FromRGB(16, 16, 16),
+            ["Element"] = FromRGB(28, 28, 28),
+            ["Border"] = FromRGB(40, 40, 40),
+            ["Outline"] = FromRGB(0, 0, 0),
+            ["Dark Liner"] = FromRGB(24, 24, 24),
+            ["Risky"] = FromRGB(255, 50, 50),
+            ["Accent"] = FromRGB(160, 216, 100)
+        },
+
+        ["Cyberpunk"] = {
+            ["Window Background"] = FromRGB(22, 18, 33),
+            ["Inline"] = FromRGB(13, 10, 20),
+            ["Text"] = FromRGB(245, 230, 255),
+            ["Section Background"] = FromRGB(17, 14, 26),
+            ["Element"] = FromRGB(32, 25, 48),
+            ["Border"] = FromRGB(55, 40, 80),
+            ["Outline"] = FromRGB(8, 5, 12),
+            ["Dark Liner"] = FromRGB(25, 19, 38),
+            ["Risky"] = FromRGB(255, 40, 80),
+            ["Accent"] = FromRGB(0, 240, 255)
+        },
+
+        ["Crimson"] = {
+            ["Window Background"] = FromRGB(26, 14, 16),
+            ["Inline"] = FromRGB(15, 8, 9),
+            ["Text"] = FromRGB(245, 220, 220),
+            ["Section Background"] = FromRGB(20, 10, 12),
+            ["Element"] = FromRGB(40, 18, 22),
+            ["Border"] = FromRGB(65, 25, 30),
+            ["Outline"] = FromRGB(8, 4, 5),
+            ["Dark Liner"] = FromRGB(30, 14, 16),
+            ["Risky"] = FromRGB(255, 30, 30),
+            ["Accent"] = FromRGB(235, 45, 75)
+        },
+
+        ["Sakura"] = {
+            ["Window Background"] = FromRGB(30, 22, 28),
+            ["Inline"] = FromRGB(18, 12, 16),
+            ["Text"] = FromRGB(250, 235, 245),
+            ["Section Background"] = FromRGB(22, 15, 20),
+            ["Element"] = FromRGB(45, 30, 40),
+            ["Border"] = FromRGB(70, 45, 62),
+            ["Outline"] = FromRGB(10, 6, 9),
+            ["Dark Liner"] = FromRGB(35, 22, 30),
+            ["Risky"] = FromRGB(255, 70, 90),
+            ["Accent"] = FromRGB(255, 140, 185)
         }
     }
 
@@ -721,11 +786,11 @@ local Library do
             end
         end
 
-        CustomFont:New("Smallest-Pixel-7", 200, "Regular", {
-       Url = "https://raw.githubusercontent.com/viera1337/primordial/main/Smallest_Pixel_7.ttf"
-     })
+        CustomFont:New("Windows-XP-Tahoma", 200, "Regular", {
+            Url = "https://github.com/sametexe001/luas/raw/refs/heads/main/fonts/windows-xp-tahoma.ttf"
+        })
 
-      Library.Font = CustomFont:Get("Smallest-Pixel-7")
+        Library.Font = CustomFont:Get("Windows-XP-Tahoma")
     end
 
     Library.Holder = Instances:Create("ScreenGui", {
@@ -4337,7 +4402,7 @@ local Library do
                 Name = "\0",
                 AnchorPoint = Vector2New(0, 0),
                 Position = UDim2New(0, 15, 0, 75), -- ปรับตำแหน่ง Y จาก 10 เป็น 75 เพื่อหลบปุ่ม Roblox ด้านบน
-                Size = UDim2New(0, 0, 0, 32), -- ปรับความสูงจาก 28 เป็น 36 ให้ใหญ่ขึ้นตามโจทย์
+                Size = UDim2New(0, 0, 0, 30), -- ปรับความสูงจาก 28 เป็น 36 ให้ใหญ่ขึ้นตามโจทย์
                 AutomaticSize = Enum.AutomaticSize.X,
                 BackgroundColor3 = FromRGB(12, 12, 12),
                 BorderColor3 = FromRGB(0, 0, 0),
@@ -4365,7 +4430,7 @@ local Library do
                 FontFace = Library.Font,
                 TextColor3 = FromRGB(180, 180, 180),
                 BorderColor3 = FromRGB(0, 0, 0),
-                Text = "Toggle ui",
+                Text = "Toggle UI",
                 Name = "\0",
                 BackgroundTransparency = 1,
                 Size = UDim2New(0, 0, 1, 0),
