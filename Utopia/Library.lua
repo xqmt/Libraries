@@ -4333,7 +4333,7 @@ local Library do
                 Name = "\0",
                 AnchorPoint = Vector2New(0, 0),
                 Position = UDim2New(0, 15, 0, 75), -- ปรับตำแหน่ง Y จาก 10 เป็น 75 เพื่อหลบปุ่ม Roblox ด้านบน
-                Size = UDim2New(0, 0, 0, 28), -- ปรับความสูงจาก 25 เป็น 36 ให้ใหญ่ขึ้น
+                Size = UDim2New(0, 0, 0, 36), -- ปรับความสูงจาก 28 เป็น 36 ให้ใหญ่ขึ้นตามโจทย์
                 AutomaticSize = Enum.AutomaticSize.X,
                 BackgroundColor3 = FromRGB(12, 12, 12),
                 BorderColor3 = FromRGB(0, 0, 0),
@@ -4352,8 +4352,8 @@ local Library do
 
             Instances:Create("UIPadding", {
                 Parent = ToggleButton.Instance,
-                PaddingRight = UDimNew(0, 16), -- เพิ่ม Padding ขวาให้ปุ่มยาวขึ้น
-                PaddingLeft = UDimNew(0, 16)  -- เพิ่ม Padding ซ้ายให้ปุ่มยาวขึ้น
+                PaddingRight = UDimNew(0, 18), -- เพิ่ม Padding ขวาให้ปุ่มยาวขึ้น
+                PaddingLeft = UDimNew(0, 18)  -- เพิ่ม Padding ซ้ายให้ปุ่มยาวขึ้น
             })
 
             local ToggleText = Instances:Create("TextLabel", {
@@ -4367,16 +4367,16 @@ local Library do
                 Size = UDim2New(0, 0, 1, 0),
                 BorderSizePixel = 0,
                 AutomaticSize = Enum.AutomaticSize.X,
-                TextSize = 12, -- ปรับขนาดตัวอักษรให้ใหญ่ขึ้นตาม (จาก 12 เป็น 14)
+                TextSize = 14, -- ปรับขนาดตัวอักษรให้ใหญ่ขึ้น (จาก 13 เป็น 14)
                 BackgroundColor3 = FromRGB(255, 255, 255)
             })  ToggleText:AddToTheme({TextColor3 = "Text"})
 
             local ToggleLiner = Instances:Create("Frame", {
                 Parent = ToggleButton.Instance,
                 Name = "\0",
-                Position = UDim2New(0, -14, 0, 0), -- ปรับให้รับกับ Padding ซ้ายที่เพิ่มขึ้น (-14)
+                Position = UDim2New(0, -18, 0, 0), -- ปรับให้รับกับ Padding ซ้าย 18 พอดี (-18)
                 BorderColor3 = FromRGB(0, 0, 0),
-                Size = UDim2New(1, 28, 0, 2), -- ปรับความกว้างของเส้น Liner และเพิ่มความหนาเป็น 3
+                Size = UDim2New(1, 36, 0, 2), -- ปรับความกว้างครอบคลุมรวม Padding ซ้าย+ขวา (18 + 18 = 36) และความหนาเป็น 2
                 BorderSizePixel = 0,
                 BackgroundColor3 = FromRGB(31, 226, 130)
             })  ToggleLiner:AddToTheme({BackgroundColor3 = "Accent"})
