@@ -2675,6 +2675,8 @@ local Library do
             return Dropdown.Value
         end
 
+        -- [FIX] ปิด Dropdown เมื่อคลิกข้างนอก — ใช้ Input.Position แทน GetMouseLocation
+        -- เพราะ ScreenGui ตั้ง IgnoreGuiInset = true ทำให้ตำแหน่งคลาดกัน 36px
         Library:Connect(UserInputService.InputBegan, function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 if Debounce then 
@@ -2685,8 +2687,8 @@ local Library do
                     return 
                 end
 
-                if Library:IsMouseOverFrame(Items["OptionHolder"].Instance) then 
-                    return
+                if Library:IsPositionOverFrame(Items["OptionHolder"].Instance, Input.Position) then 
+                    return 
                 end
 
                 Dropdown:SetOpen(false)
@@ -3848,6 +3850,7 @@ local Library do
             Keybind:SetOpen(not Keybind.IsOpen)
         end)
 
+        -- [FIX] Keybind ปิดเมื่อคลิกข้างนอก — ใช้ IsPositionOverFrame แทน IsMouseOverFrame
         Library:Connect(UserInputService.InputBegan, function(Input)
             if tostring(Input.KeyCode) == Keybind.Key or tostring(Input.UserInputType) == Keybind.Key then
                 if Keybind.Mode == "Toggle" then 
@@ -3865,7 +3868,7 @@ local Library do
                 return
             end
 
-            if Library:IsMouseOverFrame(Items["KeybindWindow"]["Outline"].Instance) then 
+            if Library:IsPositionOverFrame(Items["KeybindWindow"]["Outline"].Instance, Input.Position) then 
                 return
             end
 
