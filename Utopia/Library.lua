@@ -199,14 +199,13 @@ local Library do
             Themes = "testpath/Themes"
         },
 
-        Images = { -- you're welcome to reupload the images and replace it with your own links
+        Images = {
             ["Saturation"] = {"Saturation.png", "https://github.com/sametexe001/images/blob/main/saturation.png?raw=true" },
             ["Value"] = { "Value.png", "https://github.com/sametexe001/images/blob/main/value.png?raw=true" },
             ["Hue"] = { "Hue.png", "https://github.com/sametexe001/images/blob/main/horizontalhue.png?raw=true" },
             ["Checkers"] = { "Checkers.png", "https://github.com/sametexe001/images/blob/main/checkers.png?raw=true" },
         },
 
-        -- Ignore below
         Pages = { },
         Sections = { },
 
@@ -835,7 +834,6 @@ local Library do
         return MathFloor(Number * Multiplier) / Multiplier
     end
 
-    -- [FIX #1] IsMouseOverFrame รองรับ Touch + เพิ่ม IsPositionOverFrame
     Library.IsMouseOverFrame = function(self, Frame)
         local AbsolutePosition = Frame.AbsolutePosition
         local AbsoluteSize = Frame.AbsoluteSize
@@ -2437,6 +2435,8 @@ local Library do
                 CanvasSize = UDim2New(0, 0, 0, 0)
             })  Items["OptionHolder"]:AddToTheme({BackgroundColor3 = "Section Background", ScrollBarImageColor3 = "Accent"})
 
+            -- [FIX] เปลี่ยน Size เป็น 1,0 / 0,0 และเพิ่ม AutomaticSize.Y ให้ Holder
+            -- เพื่อให้ ScrollingFrame (OptionHolder) เห็นว่า content สูงเกิน viewport -> เลื่อนได้
             Items["Holder"] = Instances:Create("TextButton", {
                 Parent = Items["OptionHolder"].Instance,
                 AutoButtonColor = false,
@@ -2444,7 +2444,8 @@ local Library do
                 BorderColor3 = FromRGB(0, 0, 0),
                 Name = "\0",
                 Position = UDim2New(0, 0, 0, 0),
-                Size = UDim2New(1, 0, 1, 0),
+                Size = UDim2New(1, 0, 0, 0),
+                AutomaticSize = Enum.AutomaticSize.Y,
                 BackgroundTransparency = 1,
                 BorderSizePixel = 0
             })
@@ -3415,7 +3416,6 @@ local Library do
             Colorpicker:SetOpen(not Colorpicker.IsOpen)
         end)
 
-        -- [FIX #10] Close Colorpicker รองรับ Touch + ใช้ IsPositionOverFrame
         Library:Connect(UserInputService.InputBegan, function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 if Debounce then 
@@ -3434,7 +3434,6 @@ local Library do
             end
         end)
 
-        -- [FIX #3] Palette InputBegan รองรับ Touch
         Items["Palette"]:Connect("InputBegan", function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingPalette = true
@@ -3442,14 +3441,12 @@ local Library do
             end
         end)
 
-        -- [FIX #4] Palette InputEnded รองรับ Touch
         Items["Palette"]:Connect("InputEnded", function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingPalette = false
             end
         end)
 
-        -- [FIX #5] Hue InputBegan รองรับ Touch
         Items["Hue"]:Connect("InputBegan", function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingHue = true
@@ -3457,14 +3454,12 @@ local Library do
             end
         end)
 
-        -- [FIX #6] Hue InputEnded รองรับ Touch
         Items["Hue"]:Connect("InputEnded", function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingHue = false
             end
         end)
 
-        -- [FIX #7] Alpha InputBegan รองรับ Touch
         Items["Alpha"]:Connect("InputBegan", function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingAlpha = true
@@ -3472,14 +3467,12 @@ local Library do
             end
         end)
 
-        -- [FIX #8] Alpha InputEnded รองรับ Touch
         Items["Alpha"]:Connect("InputEnded", function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                 SlidingAlpha = false
             end
         end)
 
-        -- [FIX #9] InputChanged รองรับ Touch
         Library:Connect(UserInputService.InputChanged, function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
                 if SlidingPalette then
@@ -4390,7 +4383,6 @@ local Library do
             }):AddToTheme({Color = "Border"})
         end
 
-        -- [FIX #11] Mobile Floating Toggle Button (Watermark style)
         local IsMobile = UserInputService.TouchEnabled and not UserInputService.MouseEnabled
 
         if IsMobile then
@@ -4398,8 +4390,8 @@ local Library do
                 Parent = self.Holder.Instance,
                 Name = "\0",
                 AnchorPoint = Vector2New(0, 0),
-                Position = UDim2New(0, 15, 0, 75), -- ปรับตำแหน่ง Y จาก 10 เป็น 75 เพื่อหลบปุ่ม Roblox ด้านบน
-                Size = UDim2New(0, 0, 0, 32), -- ปรับความสูงจาก 28 เป็น 36 ให้ใหญ่ขึ้นตามโจทย์
+                Position = UDim2New(0, 15, 0, 75),
+                Size = UDim2New(0, 0, 0, 32),
                 AutomaticSize = Enum.AutomaticSize.X,
                 BackgroundColor3 = FromRGB(12, 12, 12),
                 BorderColor3 = FromRGB(0, 0, 0),
@@ -4418,8 +4410,8 @@ local Library do
 
             Instances:Create("UIPadding", {
                 Parent = ToggleButton.Instance,
-                PaddingRight = UDimNew(0, 18), -- เพิ่ม Padding ขวาให้ปุ่มยาวขึ้น
-                PaddingLeft = UDimNew(0, 18)  -- เพิ่ม Padding ซ้ายให้ปุ่มยาวขึ้น
+                PaddingRight = UDimNew(0, 18),
+                PaddingLeft = UDimNew(0, 18)
             })
 
             local ToggleText = Instances:Create("TextLabel", {
@@ -4433,16 +4425,16 @@ local Library do
                 Size = UDim2New(0, 0, 1, 0),
                 BorderSizePixel = 0,
                 AutomaticSize = Enum.AutomaticSize.X,
-                TextSize = 13, -- ปรับขนาดตัวอักษรให้ใหญ่ขึ้น (จาก 13 เป็น 14)
+                TextSize = 13,
                 BackgroundColor3 = FromRGB(255, 255, 255)
             })  ToggleText:AddToTheme({TextColor3 = "Text"})
 
             local ToggleLiner = Instances:Create("Frame", {
                 Parent = ToggleButton.Instance,
                 Name = "\0",
-                Position = UDim2New(0, -18, 0, 0), -- ปรับให้รับกับ Padding ซ้าย 18 พอดี (-18)
+                Position = UDim2New(0, -18, 0, 0),
                 BorderColor3 = FromRGB(0, 0, 0),
-                Size = UDim2New(1, 36, 0, 2), -- ปรับความกว้างครอบคลุมรวม Padding ซ้าย+ขวา (18 + 18 = 36) และความหนาเป็น 2
+                Size = UDim2New(1, 36, 0, 2),
                 BorderSizePixel = 0,
                 BackgroundColor3 = FromRGB(31, 226, 130)
             })  ToggleLiner:AddToTheme({BackgroundColor3 = "Accent"})
