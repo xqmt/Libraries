@@ -1,7 +1,7 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xqmt/Libraries/refs/heads/main/Utopia/Library.lua"))()
 
 local Window = Library:Window({
-    Name = "Architects",
+    Name = "ARCHITECTS",
     GradientTitle = {
         Enabled = false,
         Start = Color3.fromRGB(255, 255, 255),
