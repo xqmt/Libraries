@@ -1,7 +1,7 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xqmt/Libraries/refs/heads/main/Utopia/Library.lua"))()
 
 local Window = Library:Window({
-    Name = "U T O P I A",
+    Name = "Architects",
     GradientTitle = {
         Enabled = true,
         Start = Color3.fromRGB(255, 255, 255),
@@ -11,7 +11,7 @@ local Window = Library:Window({
     }
 })
 
-local Watermark = Library:Watermark("This is a watermark LAOLASLDASLDASLLDSALDSL", {"77974153657891", Color3.fromRGB(149, 255, 139)})
+local Watermark = Library:Watermark("Architects.hit", {"77974153657891", Color3.fromRGB(149, 255, 139)})
 local KeybindList = Library:KeybindList()
 
 --Watermark:SetVisibility(false)
@@ -365,11 +365,11 @@ do
         Library.MenuKeybind = Library.Flags["Menu Keybind"].Key
     end})
 
-    ConfigsSection:Toggle({Name = "Watermark", Flag = "Watermark", Default = false, Callback = function(Value)
+    ConfigsSection:Toggle({Name = "Watermark", Flag = "Watermark", Default = true, Callback = function(Value)
         Watermark:SetVisibility(Value)
     end})
 
-    ConfigsSection:Toggle({Name = "Keybind List", Flag = "Keybind List", Default = false, Callback = function(Value)
+    ConfigsSection:Toggle({Name = "Keybind List", Flag = "Keybind List", Default = true, Callback = function(Value)
         KeybindList:SetVisibility(Value)
     end})
 
