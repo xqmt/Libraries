@@ -721,11 +721,11 @@ local Library do
             end
         end
 
-        CustomFont:New("Windows-XP-Tahoma", 200, "Regular", {
-            Url = "https://github.com/sametexe001/luas/raw/refs/heads/main/fonts/windows-xp-tahoma.ttf"
-        })
+        CustomFont:New("Smallest-Pixel-7", 200, "Regular", {
+       Url = "https://raw.githubusercontent.com/viera1337/primordial/main/Smallest_Pixel_7.ttf"
+     })
 
-        Library.Font = CustomFont:Get("Windows-XP-Tahoma")
+      Library.Font = CustomFont:Get("Smallest-Pixel-7")
     end
 
     Library.Holder = Instances:Create("ScreenGui", {
