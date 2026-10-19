@@ -4333,7 +4333,7 @@ local Library do
                 Name = "\0",
                 AnchorPoint = Vector2New(0, 0),
                 Position = UDim2New(0, 15, 0, 75), -- ปรับตำแหน่ง Y จาก 10 เป็น 75 เพื่อหลบปุ่ม Roblox ด้านบน
-                Size = UDim2New(0, 0, 0, 36), -- ปรับความสูงจาก 28 เป็น 36 ให้ใหญ่ขึ้นตามโจทย์
+                Size = UDim2New(0, 0, 0, 32), -- ปรับความสูงจาก 28 เป็น 36 ให้ใหญ่ขึ้นตามโจทย์
                 AutomaticSize = Enum.AutomaticSize.X,
                 BackgroundColor3 = FromRGB(12, 12, 12),
                 BorderColor3 = FromRGB(0, 0, 0),
