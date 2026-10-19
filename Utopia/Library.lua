@@ -4367,7 +4367,7 @@ local Library do
                 Size = UDim2New(0, 0, 1, 0),
                 BorderSizePixel = 0,
                 AutomaticSize = Enum.AutomaticSize.X,
-                TextSize = 14, -- ปรับขนาดตัวอักษรให้ใหญ่ขึ้น (จาก 13 เป็น 14)
+                TextSize = 13, -- ปรับขนาดตัวอักษรให้ใหญ่ขึ้น (จาก 13 เป็น 14)
                 BackgroundColor3 = FromRGB(255, 255, 255)
             })  ToggleText:AddToTheme({TextColor3 = "Text"})
 
